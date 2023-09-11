@@ -1,5 +1,4 @@
 #creating demo pipline for githubactions
-#central devops
 ##### build the project
 
     ./gradlew build
