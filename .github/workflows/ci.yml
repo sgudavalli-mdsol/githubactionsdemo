@@ -9,11 +9,13 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    using: self-hosted
+    runner-label: sarvani
+
 jobs:
   build-java:
-
-    runs-on: self-hosted
-    runner-label: sarvani 
     
     steps:
     - uses: actions/checkout@v2
