@@ -1,13 +1,12 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+name: Java CI with Gradle and Docker
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 defaults:
   run:
@@ -16,27 +15,33 @@ defaults:
 
 jobs:
   build-java:
-    
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Build with Gradle
+        run: ./gradlew build
 
-    - name: Build and Push Docker Image
-      uses: mr-smithers-excellent/docker-build-push@v4
-      with:
-        image: sarvanigudavalli/githubactionsdemo
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}   
+  build-docker:
+    runs-on: self-hosted
+    needs: build-java
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+          image: sarvanigudavalli/githubactionsdemo
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
