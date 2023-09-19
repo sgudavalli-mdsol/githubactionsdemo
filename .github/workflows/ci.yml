@@ -12,7 +12,8 @@ on:
 jobs:
   build-java:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    runner-label: sarvani 
     
     steps:
     - uses: actions/checkout@v2
