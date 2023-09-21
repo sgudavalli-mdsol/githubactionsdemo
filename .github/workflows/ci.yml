@@ -12,9 +12,9 @@ on:
 jobs:
   build-java:
 
-    runs-on: sarvani
-    container:  # You can specify a container if needed
-      image: ubuntu-latest
+
+    runs-on: self-hosted
+
     
     steps:
     - uses: actions/checkout@v2
